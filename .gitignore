@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Docker files
+*.docker
+docker-compose.override.yml
+
+# Logs
+*.log

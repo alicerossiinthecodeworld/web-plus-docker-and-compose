@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:14.15-alpine3.21
+    container_name: kupipodaridai-database
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - kupipodaridai
+
+  backend:
+    build:
+      context: ./backend
+    container_name: kupipodaridai-backend
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: database
+      JWT_SECRET: ${JWT_SECRET}
+      SECRET: ${SECRET}
+    ports:
+      - "4000:3000"
+    depends_on:
+      - database
+    networks:
+      - kupipodaridai
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: kupipodaridai-frontend
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - kupipodaridai
+
+volumes:
+  db_data:
+
+networks:
+  kupipodaridai:

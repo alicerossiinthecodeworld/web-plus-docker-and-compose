@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './users/entities/user.entity';
 import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlists/entities/wishlist.entity';
+import { WishlistListsModule } from './wishlistslists/wishlistlists.module';
 import { Offer } from './offers/entities/offer.entity';
 import { WishlistList } from './wishlistslists/entities/wishlistlist.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,11 +25,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
+        host: configService.get<string>('POSTGRES_HOST'), 
+        port: configService.get<number>('POSTGRES_PORT') || 5432, 
+        username: configService.get<string>('POSTGRES_USER'), 
+        password: configService.get<string>('POSTGRES_PASSWORD'), 
+        database: configService.get<string>('POSTGRES_DB'),
         entities: [User, Wish, Wishlist, Offer, WishlistList],
         synchronize: true,
       }),
@@ -38,6 +39,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     WishlistsModule,
     OffersModule,
     AuthModule,
+    WishlistListsModule,
   ],
   controllers: [AppController],
   providers: [],

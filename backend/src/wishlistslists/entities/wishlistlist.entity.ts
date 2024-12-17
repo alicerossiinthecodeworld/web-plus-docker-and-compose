@@ -27,7 +27,7 @@ export class WishlistList {
   @ManyToOne(() => User, (user) => user.wishlistLists)
   owner: User;
 
-  @OneToMany(() => Wishlist, (wishlist) => wishlist.id, {
+  @OneToMany(() => Wishlist, (wishlist) => wishlist.wishlistList, {
     cascade: true,
   })
   wishlists: Wishlist[];

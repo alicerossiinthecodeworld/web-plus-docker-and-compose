@@ -10,4 +10,4 @@ import { WishlistListsService } from './wishlistlists.service';
   controllers: [WishlistListsController],
   providers: [WishlistListsService],
 })
-export class WishlistModule {}
+export class WishlistListsModule {}

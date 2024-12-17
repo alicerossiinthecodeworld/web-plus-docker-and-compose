@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: configService.get<string>('SECRET'),
+      secret: configService.get<string>('JWT_SECRET'),
       resave: false,
       saveUninitialized: false,
       cookie: { secure: false },
