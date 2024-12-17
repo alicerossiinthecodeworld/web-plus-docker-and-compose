@@ -40,7 +40,7 @@ services:
     container_name: kupipodaridai-frontend
     restart: always
     ports:
-      - "3000:3000"
+      - "8081:80"  # Используем стандартный порт для веб-сервера
     depends_on:
       - backend
     networks:
