@@ -19,5 +19,5 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY ecosystem.config.js ./ecosystem.config.js
 
-EXPOSE 3000
+EXPOSE 4000
 CMD ["pm2-runtime", "ecosystem.config.js"]
