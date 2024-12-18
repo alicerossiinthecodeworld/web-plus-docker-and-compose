@@ -7,11 +7,10 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
-      - kupipodaridai
+      - kupipodaridaidb
 
   backend:
     build:
@@ -24,28 +23,24 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: database
       JWT_SECRET: ${JWT_SECRET}
-      SECRET: ${SECRET}
-    ports:
-      - "4000:3000"
     depends_on:
       - database
     networks:
       - kupipodaridai
+      - kupipodaridaidb
 
   frontend:
     build:
       context: ./frontend
     container_name: kupipodaridai-frontend
     restart: always
-    ports:
-      - "8081:80"
     depends_on:
       - backend
     networks:
       - kupipodaridai
 
   nginx:
-    image: nginx:latest
+    image: nginx:1.27.3
     container_name: kupipodaridai-nginx
     restart: always
     ports:
@@ -53,7 +48,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/certs:/etc/nginx/certs 
+      - ./nginx/certs:/etc/nginx/certs
     depends_on:
       - frontend
       - backend
@@ -64,4 +59,5 @@ volumes:
   db_data:
 
 networks:
+  kupipodaridaidb:
   kupipodaridai:
